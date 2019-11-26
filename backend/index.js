@@ -155,7 +155,6 @@ router.route('/build/price-list/:build_id') //fetch price from each store in asc
         });
     });
 
-
 app.use('/', express.static('static'));
 app.use('/api', router);
 
