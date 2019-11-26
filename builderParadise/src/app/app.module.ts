@@ -11,6 +11,8 @@ import { PopularPartsComponent } from './popular-parts/popular-parts.component';
 import { PartComponent } from './part/part.component';
 import { CreateBuildComponent } from './create-build/create-build.component';
 import { BuildInfoComponent } from './build-info/build-info.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,10 @@ import { BuildInfoComponent } from './build-info/build-info.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule, 
+    HttpClientModule,
+    FormsModule, 
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

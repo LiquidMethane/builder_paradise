@@ -1,7 +1,7 @@
 <h1>Your Builds</h1>
 
 <ul *ngIf="builds">
-    <li *ngFor="let builds of builds" id="{{build.buildNo}}">
-        <p class="buildName">{{ build.buildName }}</p>
+    <li *ngFor="let build of builds" id="{{build.buildNo}}">
+        <h3 class="buildName">{{ build.buildName }}</h3>
   </li>
 </ul>
