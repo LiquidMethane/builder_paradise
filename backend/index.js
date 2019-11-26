@@ -111,6 +111,32 @@ router.route('/product/psu')
         });
     })
 
+router.route('/product/search')
+    .get((req, res) => {
+        let keyword = req.query.keyword;
+        db.query(`select partNo, partName
+        from part inner join 
+        (select partNo, caseType as searchable from pccase
+        union
+        select partNo, coolerType as searchable from pccooler
+        union
+        select partNo, concat(coreCount, ' ', coreClock, ' ', tdp) as searchable from pccpu
+        union
+        select partNo, concat(chipset, ' ', memoryCapacity, ' ', coreClock) as searchable from pcgraphicscard
+        union
+        select partNo, concat(capacity, ' ', speed, ' ', sticks) as searchable from pcmemory
+        union
+        select partNo, concat(mSocket, ' ', formFactor, ' ', ramSlot, ' ', maxRam) from pcmotherboard
+        union
+        select partNo, wattage as searchable from pcpowersupply
+        union
+        select partNo, concat(sType, ' ', capacity) as searchable from pcstorage) as searchables using (partNo)
+        where searchable like '%${keyword}%' or partName like '%${keyword}%';`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send(result);
+        });
+    });
+
 router.route('/build')
     .get((req, res) => { //fetch the first 20 builds from build table
 
@@ -124,7 +150,20 @@ router.route('/build')
         let build_name = req.body.build_name;
         let user_id = req.body.user_id;
 
-        db.query(`insert into build values (null, '${build_name}', ${user_id})`);
+        db.query(`insert into build values (null, '${build_name}', ${user_id})`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send('Build Created.');
+        });
+    });
+
+router.route('/build/add-part/:buildNo')
+    .post((req, res) => {
+        let partNo = req.body.partNo;
+        let buildNo = req.params.buildNo;
+        db.query(`insert into buildpart values (${buildNo}, ${partnNo})`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send('Part Added.');
+        });
     });
 
 router.route('/build/:user_id')
@@ -150,6 +189,18 @@ router.route('/build/price-list/:build_id') //fetch price from each store in asc
         and buildNo = ${build_id} and inventoryDate = '2019-12-01'
         group by storeNo
         order by total asc`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send(result);
+        });
+    });
+
+router.route('/fav-part/:user_id') //fetch all fav parts for a user with the lowest available price
+    .get((req, res) => {
+        let user_id = req.params.user_id;
+        db.query(`select partNo, partName, min(price)
+        from userfavouritepart inner join part using (partNo) inner join inventory using (partNo)
+        where inventoryDate = '2019-12-01' and userId = ${user_id} and price > 0
+        group by partNo`, (err, result) => {
             if (err) return res.status(400).send(err.message);
             res.send(result);
         });
