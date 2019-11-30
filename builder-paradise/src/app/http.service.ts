@@ -38,4 +38,9 @@ export class HttpService {
   getFavourites(user_id){
     return this.http.get(this.relUrl + '/api/fav-part/' + user_id); 
   }
+
+  // Register a user using given username/email/password
+  createAccount(username, email, password){
+    return this.http.put(this.relUrl + '/api/create-account', {username, email, password}); 
+  }
 }

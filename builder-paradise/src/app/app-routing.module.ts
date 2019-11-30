@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { UserBuildsComponent } from './user-builds/user-builds.component';
 import { BuildComponent } from './build/build.component';
 import { FavouritesComponent } from './favourites/favourites.component';
+import { NewAccountComponent } from './new-account/new-account.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'user-builds', component: UserBuildsComponent},
   { path: 'build', component: BuildComponent},
-  { path: 'favourites', component: FavouritesComponent}
+  { path: 'favourites', component: FavouritesComponent},
+  { path: 'create-account', component: NewAccountComponent}
 ];
 
 @NgModule({

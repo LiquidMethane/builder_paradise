@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuildComponent } from './build/build.component';
 import { UserBuildsComponent } from './user-builds/user-builds.component';
 import { FavouritesComponent } from './favourites/favourites.component';
+import { NewAccountComponent } from './new-account/new-account.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FavouritesComponent } from './favourites/favourites.component';
     HomeComponent,
     BuildComponent,
     UserBuildsComponent,
-    FavouritesComponent
+    FavouritesComponent,
+    NewAccountComponent
   ],
   imports: [
     BrowserModule,

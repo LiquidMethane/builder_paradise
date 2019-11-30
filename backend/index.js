@@ -39,7 +39,7 @@ router.route('/create-account')
 
         db.query(`INSERT INTO User (userEmail, userNickname, userPass) VALUES ('${email}', '${username}', '${password}');`, (err, result) => {
             if (err) return res.status(500).send(err.message);
-            res.send('User created');
+            res.json('User created');
         })
     });
 
