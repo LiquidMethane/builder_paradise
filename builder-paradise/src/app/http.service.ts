@@ -30,4 +30,8 @@ export class HttpService {
   getBuildInfo(build_id){
     return this.http.get(this.relUrl + '/api/build-parts/' + build_id); 
   }
+
+  getBuildPrice(build_id){
+    return this.http.get(this.relUrl + '/api/build/price-list/' + build_id);
+  }
 }

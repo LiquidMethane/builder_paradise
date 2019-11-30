@@ -5,3 +5,13 @@
         <h3 class="partName">{{ part.partName }}</h3>
   </li>
 </ul>
+
+<div *ngIf="priceInfo" class="buildPrices">
+    <h2>Total Build Price from Various Stores</h2>
+    <ul>
+        <li *ngFor="let pi of priceInfo" id="{{pi.storeNo}}">
+            <h3 class="storeName">{{ pi.storeName }}</h3>
+            <p>Total Price of Build: ${{pi.total}}</p>
+        </li>
+    </ul>
+</div>
