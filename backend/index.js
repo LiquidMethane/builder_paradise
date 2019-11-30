@@ -30,6 +30,173 @@ router.use('/', (req, res, next) => {
 });
 
 
+
+router.route('/product/cpu')
+    .get((req, res) => { //fetch all cpu 
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pccpu using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+            db.query('select * from part inner join pccpu using (partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
+router.route('/product/cooler')
+    .get((req, res) => { //fetch all cooler
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pccooler using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+            db.query('select * from part inner join pccooler using (partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
+router.route('/product/memory')
+    .get((req, res) => { //fetch all memory
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pcmemory using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+
+            db.query('select * from part inner join pcmemory using(partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
+router.route('/product/gpu')
+    .get((req, res) => { //fetch all gpu
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pcgraphicscard using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+
+            db.query('select * from part inner join pcgraphicscard using(partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
+router.route('/product/case')
+    .get((req, res) => { //fetch all case
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pccase using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+
+            db.query('select * from part inner join pccase using(partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
+router.route('/product/storage')
+    .get((req, res) => { //fetch all storage
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pcstorage using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+
+            db.query('select * from part inner join pcstorage using(partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
+router.route('/product/mb')
+    .get((req, res) => { //fetch all motherboard
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pcmotherboard using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+
+            db.query('select * from part inner join pcmotherboard using(partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
+router.route('/product/psu')
+    .get((req, res) => { //fetch all powersupply
+        let partNo = req.query.partNo;
+
+        //partNo is given
+        if (partNo) {
+            db.query(`select * from part inner join pspowersupply using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result[0]);
+            });
+
+            //partNo is not given
+        } else {
+
+            db.query('select * from part inner join pcpowersupply using(partNo);', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                res.send(result);
+            });
+        }
+    })
+
 router.route('/user/validate') //validate user 
     .post((req, res) => {
         let email = req.body.email;
@@ -40,76 +207,39 @@ router.route('/user/validate') //validate user
             console.log(result[0]);
             console.log(pass);
             if (pass == result[0].userPass) {
-                res.json({user_id: result[0].userId});
+                res.json({ user_id: result[0].userId });
             } else {
                 res.send('Validation Failed.');
             }
         });
     });
 
-router.route('/product/cpu')
-    .get((req, res) => { //fetch all cpu 
-        db.query('select * from builder_paradise.part inner join builder_paradise.pccpu using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
-    })
 
-router.route('/product/cooler')
-    .get((req, res) => { //fetch all cooler
-        db.query('select * from builder_paradise.part inner join builder_paradise.pccooler using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
+router.route('/product/search')
+    .get((req, res) => {
+        let keyword = req.query.keyword;
+        db.query(`select partNo, partName
+        from part inner join 
+        (select partNo, caseType as searchable from pccase
+        union
+        select partNo, coolerType as searchable from pccooler
+        union
+        select partNo, concat(coreCount, ' ', coreClock, ' ', tdp) as searchable from pccpu
+        union
+        select partNo, concat(chipset, ' ', memoryCapacity, ' ', coreClock) as searchable from pcgraphicscard
+        union
+        select partNo, concat(capacity, ' ', speed, ' ', sticks) as searchable from pcmemory
+        union
+        select partNo, concat(mSocket, ' ', formFactor, ' ', ramSlot, ' ', maxRam) from pcmotherboard
+        union
+        select partNo, wattage as searchable from pcpowersupply
+        union
+        select partNo, concat(sType, ' ', capacity) as searchable from pcstorage) as searchables using (partNo)
+        where searchable like '%${keyword}%' or partName like '%${keyword}%';`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
             res.send(result);
         });
-    })
-
-router.route('/product/memory')
-    .get((req, res) => { //fetch all memory
-        db.query('select * from builder_paradise.part inner join builder_paradise.pcmemory using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
-    })
-
-router.route('/product/gpu')
-    .get((req, res) => { //fetch all gpu
-        db.query('select * from builder_paradise.part inner join builder_paradise.pcgraphicscard using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
-    })
-
-router.route('/product/case')
-    .get((req, res) => { //fetch all case
-        db.query('select * from builder_paradise.part inner join builder_paradise.pccase using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
-    })
-
-router.route('/product/storage')
-    .get((req, res) => { //fetch all storage
-        db.query('select * from builder_paradise.part inner join builder_paradise.storage using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
-    })
-
-router.route('/product/mb')
-    .get((req, res) => { //fetch all motherboard
-        db.query('select * from builder_paradise.part inner join builder_paradise.pcmotherboard using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
-    })
-
-router.route('/product/psu')
-    .get((req, res) => { //fetch all powersupply
-        db.query('select * from builder_paradise.part inner join builder_paradise.pcpowersupply using(partNo);', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
-    })
+    });
 
 router.route('/build')
     .get((req, res) => { //fetch the first 20 builds from build table
@@ -120,11 +250,24 @@ router.route('/build')
         });
     })
 
-    .put((req, res) => {
+    .put((req, res) => { //insert a build into db
         let build_name = req.body.build_name;
         let user_id = req.body.user_id;
 
-        db.query(`insert into build values (null, '${build_name}', ${user_id})`);
+        db.query(`insert into build values (null, '${build_name}', ${user_id})`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send('Build Created.');
+        });
+    });
+
+router.route('/build/add-part/:buildNo') //insert a part into a build
+    .put((req, res) => {
+        let partNo = req.body.partNo;
+        let buildNo = req.params.buildNo;
+        db.query(`insert into buildpart values (${buildNo}, ${partNo})`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send('Part Added.');
+        });
     });
 
 router.route('/build/:user_id')
@@ -150,6 +293,19 @@ router.route('/build/price-list/:build_id') //fetch price from each store in asc
         and buildNo = ${build_id} and inventoryDate = '2019-12-01'
         group by storeNo
         order by total asc`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send(result);
+        });
+    });
+
+
+router.route('/fav-part/:user_id') //fetch all fav parts for a user with the lowest available price
+    .get((req, res) => {
+        let user_id = req.params.user_id;
+        db.query(`select partNo, partName, min(price)
+        from userfavouritepart inner join part using (partNo) inner join inventory using (partNo)
+        where inventoryDate = '2019-12-01' and userId = ${user_id} and price > 0
+        group by partNo`, (err, result) => {
             if (err) return res.status(400).send(err.message);
             res.send(result);
         });
