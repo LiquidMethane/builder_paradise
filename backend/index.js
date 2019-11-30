@@ -30,6 +30,18 @@ router.use('/', (req, res, next) => {
 });
 
 
+// Insert User 
+router.route('/create-account')
+    .put((req, res) => {
+        let email = req.body.email; 
+        let username = req.body.username; 
+        let password = req.body.password; 
+
+        db.query(`INSERT INTO User (userEmail, userNickname, userPass) VALUES ('${email}', '${username}', '${password}');`, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            res.send('User created');
+        })
+    });
 
 router.route('/product/cpu')
     .get((req, res) => { //fetch all cpu 
@@ -278,6 +290,16 @@ router.route('/build/:user_id')
         })
     });
 
+router.route('/build/:build_id')
+    .get((req, res) => { 
+        let build_id = req.params.build_id
+        db.query(`SELECT bp.partNo, p.partName
+        FROM BuildPart as bp, Part as p
+        WHERE bp.partNo = p.partNo AND buildNo = ${build_id} `, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            res.send(result);
+        })
+    });
 
 router.route('/build/price-list/:build_id') //fetch price from each store in ascending order
     .get((req, res) => {
@@ -310,6 +332,21 @@ router.route('/fav-part/:user_id') //fetch all fav parts for a user with the low
             res.send(result);
         });
     });
+
+router.route('/add-fav-from-builds/:user_id') // Add any parts that have been used in a certain user's builds to that user's favourites list 
+    .put((req, res) => {
+        let user_id = req.params.user_id; 
+        db.query(`INSERT INTO UserFavouritePart 
+        SELECT ${user_id}, p.partNo
+        FROM Part as p
+        WHERE (EXISTS
+            (SELECT bp.partNo, u.userId FROM BuildPart as bp, User as u, Build as b
+            WHERE bp.buildNo = b.buildNo AND u.userId = ${user_id} and p.partNo = bp.partNo)
+            AND NOT EXISTS(SELECT partNo FROM UserFavouritePart as ufp WHERE userId = ${user_id} AND ufp.partNo = p.partNo))`, (err, result) => {
+                if (err) return res.status(400).send(err.message);
+            res.send('Parts added to Favourites');
+            })
+    })
 
 app.use('/', express.static('static'));
 app.use('/api', router);
