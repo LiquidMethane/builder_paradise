@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '2333',
+    password: 'potatoroot',
     database: 'builder_paradise'
 })
 
@@ -298,6 +298,7 @@ router.route('/build/price-list/:build_id') //fetch price from each store in asc
         });
     });
 
+
 router.route('/fav-part/:user_id') //fetch all fav parts for a user with the lowest available price
     .get((req, res) => {
         let user_id = req.params.user_id;
@@ -309,7 +310,6 @@ router.route('/fav-part/:user_id') //fetch all fav parts for a user with the low
             res.send(result);
         });
     });
-
 
 app.use('/', express.static('static'));
 app.use('/api', router);
