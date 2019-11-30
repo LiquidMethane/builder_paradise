@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BuildComponent } from './build/build.component';
 import { UserBuildsComponent } from './user-builds/user-builds.component';
+import { FavouritesComponent } from './favourites/favourites.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { UserBuildsComponent } from './user-builds/user-builds.component';
     LoginComponent,
     HomeComponent,
     BuildComponent,
-    UserBuildsComponent
+    UserBuildsComponent,
+    FavouritesComponent
   ],
   imports: [
     BrowserModule,

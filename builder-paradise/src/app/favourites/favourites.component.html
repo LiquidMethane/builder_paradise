@@ -1,0 +1,8 @@
+<h1>Your Favourite Parts</h1>
+
+<ul *ngIf="favs">
+    <li *ngFor="let fav of favs" id="{{fav.partNo}}">
+        <h3 class="partName">{{ fav.partName }}</h3>
+        <!-- <button (click)="getPartInfo(part.partNo)">See Part</button> -->
+  </li>
+</ul>

@@ -34,4 +34,8 @@ export class HttpService {
   getBuildPrice(build_id){
     return this.http.get(this.relUrl + '/api/build/price-list/' + build_id);
   }
+
+  getFavourites(user_id){
+    return this.http.get(this.relUrl + '/api/fav-part/' + user_id); 
+  }
 }
