@@ -285,15 +285,23 @@ router.route('/build/add-part/:buildNo') //insert a part into a build
         });
     });
 
+// router.route('/build/:user_id')
+//     .get((req, res) => { //fetch all builds for a user_id
+//         db.query('select buildNo, buildName, partNo, partName from builder_paradise.build inner join builder_paradise.buildpart using (buildNo) inner join builder_paradise.part using (partNo) where userId = ' + req.params.user_id + ';', (err, result) => {
+//             if (err) return res.status(500).send(err.message);
+//             res.send(result);
+//         })
+//     });
+
 router.route('/build/:user_id')
     .get((req, res) => { //fetch all builds for a user_id
-        db.query('select buildNo, buildName, partNo, partName from builder_paradise.build inner join builder_paradise.buildpart using (buildNo) inner join builder_paradise.part using (partNo) where userId = ' + req.params.user_id + ';', (err, result) => {
+        db.query('select buildNo, buildName from builder_paradise.build where userId = ' + req.params.user_id + ';', (err, result) => {
             if (err) return res.status(500).send(err.message);
             res.send(result);
         })
     });
 
-router.route('/build/:build_id')
+router.route('/build-parts/:build_id')
     .get((req, res) => { 
         let build_id = req.params.build_id
         db.query(`SELECT bp.partNo, p.partName

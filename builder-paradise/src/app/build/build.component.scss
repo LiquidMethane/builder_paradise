@@ -1,0 +1,27 @@
+h1 {
+    font-family: sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    background: lightgray;
+    padding: 0.5em;
+    margin-right: 10px;
+    margin-bottom: 1em;
+    font-family: sans-serif;
+}
+
+li p {
+    margin: 0;
+    line-height: 200%; 
+}
+
+li p.partName {
+    font-weight: bold;
+    font-size: 1.2rem;
+}

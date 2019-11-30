@@ -26,4 +26,8 @@ export class HttpService {
   getUserBuilds(user_id:string){
     return this.http.get(this.relUrl + '/api/build/' + user_id); 
   }
+
+  getBuildInfo(build_id){
+    return this.http.get(this.relUrl + '/api/build-parts/' + build_id); 
+  }
 }
