@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'potatoroot',
+    password: '2333',
     database: 'builder_paradise'
 })
 
@@ -29,7 +29,22 @@ router.use('/', (req, res, next) => {
     next();
 });
 
-
+router.route('/product/:partNo')
+    .get((req, res) => {
+        let partNo = req.params.partNo;
+        let type = null;
+        let part = null;
+        db.query(`select partType from part where partNo = ${partNo}`, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            type = result[0].partType;
+            db.query(`select * from ${type} inner join part using (partNo) where partNo = ${partNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                part = new Object(result[0]);
+                part.partType = type;
+                return res.send(part);
+            })
+        })
+    });
 
 router.route('/product/cpu')
     .get((req, res) => { //fetch all cpu 
@@ -241,13 +256,41 @@ router.route('/product/search')
         });
     });
 
+router.route('/product/price/:partNo')
+    .get((req, res) => {
+        let partNo = req.params.partNo;
+
+        db.query( `select * from inventory where partNo = ${partNo} order by storeNo, inventoryDate;`, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            return res.send(result);
+        })
+    })
+
+router.route('/store')
+    .get((req, res) => {
+        db.query(`select * from store`, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            return res.send(result);
+        })
+    })
+
 router.route('/build')
     .get((req, res) => { //fetch the first 20 builds from build table
 
-        db.query('SELECT * FROM builder_paradise.build WHERE buildNo < 20;', (err, result) => {
-            if (err) return res.status(500).send(err.message);
-            res.send(result);
-        });
+        let buildNo = req.query.buildNo;
+        if (buildNo) {
+            db.query(`select * from buildpart inner join part using (partNo) where buildNo = ${buildNo}`, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                return res.send(result);
+            })
+        } else {
+            db.query('select * from build order by rand() limit 20;', (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                return res.send(result);
+            });
+        }
+
+
     })
 
     .put((req, res) => { //insert a build into db
@@ -259,6 +302,8 @@ router.route('/build')
             res.send('Build Created.');
         });
     });
+
+
 
 router.route('/build/add-part/:buildNo') //insert a part into a build
     .put((req, res) => {

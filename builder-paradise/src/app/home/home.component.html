@@ -1,0 +1,17 @@
+<!-- <p>home works!</p> -->
+
+<h1>Here Are 20 Random Builds</h1>
+
+<div class="container">
+    <mat-accordion *ngIf='buildsLoaded'>
+        <mat-expansion-panel *ngFor='let build of builds' (opened)='fetchBuild(build.buildNo)'>
+            <mat-expansion-panel-header>
+                <mat-panel-title> {{ build.buildName }} </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list *ngIf='buildpartsLoaded'>
+                <mat-list-item *ngFor='let part of buildparts'><a routerLink="part/{{ part.partNo }}"> {{ part.partName }} </a></mat-list-item>
+            </mat-list>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

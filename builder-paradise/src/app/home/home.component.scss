@@ -1,0 +1,17 @@
+mat-list {
+
+    list-style-type: none;
+}
+
+mat-list-item a {
+    // padding: 1em;
+
+    &:link {
+        text-decoration: none;
+        color: black;
+    }
+
+    &:hover {
+        background: lightgray;
+    }
+}

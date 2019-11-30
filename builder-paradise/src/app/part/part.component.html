@@ -1,0 +1,59 @@
+<div class="container" *ngIf='partLoaded'>
+    <h1> {{ part.partName }} </h1>
+    <h3>Specs:</h3>
+    <div *ngIf='part.partType=="pccpu"'>
+        <mat-list>
+            <mat-list-item>Core Count: {{ part.coreCount }} </mat-list-item>
+            <mat-list-item>Core Clock: {{ part.coreClock }} GHz</mat-list-item>
+            <mat-list-item>Thermal Design Power: {{ part.tdp }} Watts</mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf='part.partType=="pccooler"'>
+        <mat-list>
+            <mat-list-item>Type: {{ part.coolerType }} </mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf='part.partType=="pcmotherboard"'>
+        <mat-list>
+            <mat-list-item>Socket: {{ part.mSocket }} </mat-list-item>
+            <mat-list-item>Form Factor: {{ part.formFactor }} </mat-list-item>
+            <mat-list-item>Ram Slots: {{ part.ramSlot }}</mat-list-item>
+            <mat-list-item>Max Ram: {{ part.maxRam }} GB</mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf='part.partType=="pcmemory"'>
+        <mat-list>
+            <mat-list-item>Capacity: {{ part.capacity }} GB</mat-list-item>
+            <mat-list-item>Speed: {{ part.speed }} MHz</mat-list-item>
+            <mat-list-item>Sticks: {{ part.sticks }}</mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf='part.partType=="pcstorage"'>
+        <mat-list>
+            <mat-list-item>Type: {{ part.sType }} </mat-list-item>
+            <mat-list-item>Capacity: {{ part.capacity }} GB</mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf='part.partType=="pcgraphicscard"'>
+        <mat-list>
+            <mat-list-item>Chipset: {{ part.chipset }} </mat-list-item>
+            <mat-list-item>Memory Capacity: {{ part.memoryCapacity }} GB</mat-list-item>
+            <mat-list-item>Core Clock: {{ part.coreClock }} MHz</mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf='part.partType=="pcpowersupply"'>
+        <mat-list>
+            <mat-list-item>Wattage: {{ part.wattage }} watts</mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf='part.partType=="pccase"'>
+        <mat-list>
+            <mat-list-item>Type: {{ part.caseType }} </mat-list-item>
+            <mat-list-item>Side Panel: {{ part.sidePanel }} </mat-list-item>
+        </mat-list>
+    </div>
+
+
+</div>
+
+<div id="chartContainer"></div>
