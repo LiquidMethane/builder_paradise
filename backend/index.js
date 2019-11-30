@@ -218,6 +218,9 @@ router.route('/user/validate') //validate user
             if (err) return res.status(400).send(err.message);
             console.log(result[0]);
             console.log(pass);
+            if(!result[0]){
+                res.send('User doesn\'t exist');
+            }
             if (pass == result[0].userPass) {
                 res.json({ user_id: result[0].userId });
             } else {
