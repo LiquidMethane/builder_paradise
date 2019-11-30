@@ -26,4 +26,11 @@ export class HttpService {
     return this.http.get(`api/store`);
   }
 
+  login(username: string, password: string) {
+    return this.http.post('api/user/validate', {
+      'email': username,
+      'pass': password
+    });
+  }
+
 }

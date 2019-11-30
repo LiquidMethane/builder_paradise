@@ -221,10 +221,12 @@ router.route('/user/validate') //validate user
             if (err) return res.status(400).send(err.message);
             console.log(result[0]);
             console.log(pass);
-            if (pass == result[0].userPass) {
+            if (result.length == 0)
+                return res.status(400).send('Validation Failed.');
+            else if (pass == result[0].userPass) {
                 res.json({ user_id: result[0].userId });
             } else {
-                res.send('Validation Failed.');
+                res.status(400).send('Validation Failed.');
             }
         });
     });
