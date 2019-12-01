@@ -37,7 +37,7 @@ export class HttpService {
     return this.http.put('api/user', {
       'username': username,
       'email': email,
-      'password': password,
+      'pass': password,
     });
   }
 
@@ -56,6 +56,31 @@ export class HttpService {
 
   fetchDeals() {
     return this.http.get('api/product/deals');
+  }
+
+  fetchUserBuilds(user_id: Number) {
+    return this.http.get(`api/build/${user_id}`);
+  }
+
+  fetchBuildPrices(buildNo: Number) {
+    return this.http.get(`api/build/price-list/${buildNo}`);
+  }
+
+  fetchFavParts(user_id: Number) {
+    return this.http.get(`api/fav-part/${user_id}`);
+  }
+
+  createBuild(name: string, user_id: Number) {
+    return this.http.put('api/build', {
+      build_name: name,
+      user_id: user_id
+    });
+  }
+
+  addToBuild(partNo: Number, buildNo: Number) {
+    return this.http.put(`api/add-part/${buildNo}`, {
+      partNo: partNo
+    });
   }
 
 }

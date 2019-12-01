@@ -18,12 +18,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { HomeComponent } from './home/home.component';
 import { PartComponent } from './part/part.component';
 import { LoginComponent } from './login/login.component';
 import { SearchComponent } from './search/search.component';
 import { DealComponent } from './deal/deal.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -34,7 +38,8 @@ import { DealComponent } from './deal/deal.component';
     PartComponent,
     LoginComponent,
     SearchComponent,
-    DealComponent
+    DealComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +58,9 @@ import { DealComponent } from './deal/deal.component';
     MatIconModule,
     MatDividerModule,
     MatTableModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

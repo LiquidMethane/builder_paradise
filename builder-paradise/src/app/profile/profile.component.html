@@ -1,0 +1,77 @@
+<h1>Hello, {{ user_nickname }}! </h1>
+<button class="logout-btn" mat-flat-button (click)='logOut()'>Log Out</button>
+
+
+<div class="container">
+    <mat-expansion-panel class="create-new-build">
+        <mat-expansion-panel-header>
+            <mat-panel-title>Create New Build</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]='form'>
+            <mat-form-field appearance='outline'>
+                <mat-label>Build Name</mat-label>
+                <input matInput formControlName="name">
+            </mat-form-field>
+            <button mat-flat-button (click)='createBuild()'>Create Build</button>
+        </form>
+    </mat-expansion-panel>
+
+
+</div>
+
+<h3>builds:</h3>
+
+
+<div class="container">
+    <mat-accordion *ngIf='buildsLoaded'>
+        <mat-expansion-panel *ngFor='let build of builds' (opened)='fetchBuildParts(build.buildNo)'>
+            <mat-expansion-panel-header>
+                <mat-panel-title> {{ build.buildName }} </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-grid-list cols="2">
+                <mat-grid-tile>
+                    <mat-grid-tile-header>Parts</mat-grid-tile-header>
+                    <mat-list>
+                        <mat-divider></mat-divider>
+                        <div *ngFor='let part of buildparts'>
+                            <mat-list-item> {{ typeDict[part.partType] }} : <a routerLink="../part/{{ part.partNo }}">
+                                    {{ part.partName }} </a></mat-list-item>
+                            <mat-divider></mat-divider>
+                        </div>
+
+                    </mat-list>
+                </mat-grid-tile>
+
+                <mat-grid-tile>
+                    <mat-grid-tile-header>Build Prices</mat-grid-tile-header>
+                    <mat-list *ngIf='priceListLoaded'>
+                        <mat-divider></mat-divider>
+                        <div *ngFor='let price of priceList'>
+                            <mat-list-item>
+                                <span> {{price.storeName}} </span><span> {{price.total}} </span>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                        </div>
+                    </mat-list>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
+
+<h3>Favourite Parts:</h3>
+
+<div class="container">
+    <mat-list>
+        <mat-divider></mat-divider>
+        <div *ngFor='let fav of favparts'>
+            <mat-list-item>
+                <span><a routerLink="../part/{{ fav.partNo }}"> {{ fav.partName }} </a></span><span> Starting At: $
+                    {{fav.low}} </span>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </div>
+    </mat-list>
+</div>

@@ -229,12 +229,10 @@ router.route('/user') //validate user
                 res.status(400).send('Validation Failed.');
             }
         });
-    });
-
-router.route('/user')
+    })
     .put((req, res) => {
         let email = req.body.email;
-        let pass = req.body.password;
+        let pass = req.body.pass;
         let username = req.body.username;
         db.query(`insert into user values (null, '${email}', '${username}', '${pass}')`, (err, result) => {
             if (err) return res.status(500).send(err.message);
@@ -307,7 +305,6 @@ router.route('/store')
 
 router.route('/build')
     .get((req, res) => { //fetch the first 20 builds from build table
-
         let buildNo = req.query.buildNo;
         if (buildNo) {
             db.query(`select * from buildpart inner join part using (partNo) where buildNo = ${buildNo}`, (err, result) => {
@@ -330,43 +327,43 @@ router.route('/build')
 
         db.query(`insert into build values (null, '${build_name}', ${user_id})`, (err, result) => {
             if (err) return res.status(400).send(err.message);
-            res.send('Build Created.');
+            res.json('Build Created.');
         });
     });
 
 
 
-router.route('/build/add-part/:buildNo') //insert a part into a build
+router.route('/add-part/:buildNo') //insert a part into a build
     .put((req, res) => {
         let partNo = req.body.partNo;
         let buildNo = req.params.buildNo;
         db.query(`insert into buildpart values (${buildNo}, ${partNo})`, (err, result) => {
             if (err) return res.status(400).send(err.message);
-            res.send('Part Added.');
+            res.json('Part Added.');
         });
     });
 
 router.route('/build/:user_id')
     .get((req, res) => { //fetch all builds for a user_id
-        db.query('select buildNo, buildName, partNo, partName from builder_paradise.build inner join builder_paradise.buildpart using (buildNo) inner join builder_paradise.part using (partNo) where userId = ' + req.params.user_id + ';', (err, result) => {
+        db.query('select buildNo, buildName from build where userId = ' + req.params.user_id + ';', (err, result) => {
             if (err) return res.status(500).send(err.message);
             res.send(result);
         })
     });
 
 
-router.route('/build/price-list/:build_id') //fetch price from each store in ascending order
+router.route('/build/price-list/:buildNo') //fetch price from each store in ascending order
     .get((req, res) => {
-        let build_id = req.params.build_id;
+        let buildNo = req.params.buildNo;
         db.query(`select storeNo, storeName, sum(price) as total
         from inventory inner join store using (storeNo) inner join buildpart using (partNo)
         where storeNo in 
             (select inv.storeNo
             from inventory as inv
-            where inv.price > 0 and inv.inventoryDate = '2019-12-01' and inv.partNo in (select partNo from buildpart where buildNo = ${build_id})
+            where inv.price > 0 and inv.inventoryDate = '2019-12-01' and inv.partNo in (select partNo from buildpart where buildNo = ${buildNo})
             group by inv.storeNo
-            having count(inv.partNo) = (select count(partNo) from buildpart where buildNo = ${build_id}))
-        and buildNo = ${build_id} and inventoryDate = '2019-12-01'
+            having count(inv.partNo) = (select count(partNo) from buildpart where buildNo = ${buildNo}))
+        and buildNo = ${buildNo} and inventoryDate = '2019-12-01'
         group by storeNo
         order by total asc`, (err, result) => {
             if (err) return res.status(400).send(err.message);
@@ -378,7 +375,7 @@ router.route('/build/price-list/:build_id') //fetch price from each store in asc
 router.route('/fav-part/:user_id') //fetch all fav parts for a user with the lowest available price
     .get((req, res) => {
         let user_id = req.params.user_id;
-        db.query(`select partNo, partName, min(price)
+        db.query(`select partNo, partName, storeNo, min(price) as low
         from userfavouritepart inner join part using (partNo) inner join inventory using (partNo)
         where inventoryDate = '2019-12-01' and userId = ${user_id} and price > 0
         group by partNo`, (err, result) => {

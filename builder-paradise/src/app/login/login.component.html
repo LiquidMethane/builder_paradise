@@ -1,4 +1,4 @@
-<form [formGroup]='signupForm' *ngIf='!signup; else elseBlock'>
+<form [formGroup]='signupForm' *ngIf='signup; else elseBlock'>
 
     <mat-card class='container'>
         <mat-card-title>Sign Up</mat-card-title>
@@ -19,7 +19,7 @@
 
         <span>or <span class="clickable" (click)='signup=!signup'> Log In</span></span> 
         <mat-card-actions>
-            <button mat-flat-button (click)='signup()'>SIGN UP</button>
+            <button mat-flat-button (click)='signUp()'>SIGN UP</button>
             
 
         </mat-card-actions>

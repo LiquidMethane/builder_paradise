@@ -54,6 +54,19 @@
     </div>
 
 
+
+</div>
+
+<div class="container">
+    <form [formGroup]='form'>
+        <mat-form-field>
+            <mat-label>Choose Your Build</mat-label>
+            <mat-select formControlName="buildNo">
+                <mat-option *ngFor="let build of builds" [value]='build.buildNo'>{{build.buildName}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button (click)='addToBuild()'>Add To My Build</button>
+    </form>
 </div>
 
 <div id="chartContainer"></div>

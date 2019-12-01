@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as CanvasJS from '../canvasjs.min';
 import { HttpService } from '../http.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-part',
@@ -18,15 +19,21 @@ export class PartComponent implements OnInit {
   store_list: Object = [];
   priceData: Object = [[], [], [], [], [], [], []];
 
+  builds: Object = null;
+  form: FormGroup;
 
-  constructor(private _route: ActivatedRoute, private _http: HttpService) {
+
+  constructor(private _route: ActivatedRoute, private _http: HttpService, private fb: FormBuilder, private _router: Router) {
     this._route.params.subscribe(params => this.partNo = params.partNo);
+    this.form = this.fb.group({
+      buildNo: ['', Validators.required]
+    });
   }
 
   ngOnInit() {
     this.fetchPart(this.partNo);
     this.fetchStoreList();
-    
+    this.fetchBuildList(Number(sessionStorage.getItem('user_id')));
 
   }
 
@@ -157,8 +164,28 @@ export class PartComponent implements OnInit {
 
     chart.render();
 
+  }
 
-    
+  fetchBuildList(user_id: Number) {
+    this._http.fetchUserBuilds(user_id).subscribe(builds => {
+      this.builds = builds;
+    })
+  }
+
+  addToBuild() {
+    const val = this.form.value;
+
+    if (val.buildNo) {
+      this._http.addToBuild(this.partNo, val.buildNo).subscribe(result => {
+        alert(JSON.stringify(result));
+      },
+        err => {
+          alert(err.error);
+        }
+      )
+    } else {
+      this._router.navigateByUrl('/');
+    }
   }
 
 }

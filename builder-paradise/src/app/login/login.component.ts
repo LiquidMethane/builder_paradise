@@ -27,13 +27,17 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  signup() {
+  signUp() {
     const val = this.signupForm.value;
 
     if (val.username && val.password && val.email) {
       this._http.signup(val.username, val.email, val.password).subscribe(result => {
         this.router.navigateByUrl('/login');
-      })
+      },
+      err => {
+        alert('Sign Up Failed.');
+      }
+      )
     }
   }
 
