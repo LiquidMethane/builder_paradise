@@ -41,3 +41,10 @@ button.logout-btn {
 mat-expansion-panel.create-new-build {
     width: 50%;
 }
+
+button.delete {
+    &:hover {
+        background-color: red;
+        color: white;
+    }
+}

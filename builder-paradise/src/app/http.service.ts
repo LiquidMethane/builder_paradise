@@ -72,15 +72,25 @@ export class HttpService {
 
   createBuild(name: string, user_id: Number) {
     return this.http.put('api/build', {
-      build_name: name,
-      user_id: user_id
+      'build_name': name,
+      'user_id': user_id
     });
   }
 
   addToBuild(partNo: Number, buildNo: Number) {
     return this.http.put(`api/add-part/${buildNo}`, {
-      partNo: partNo
+      'partNo': partNo
     });
+  }
+
+  updateBuildName(buildNo: Number, buildName: string) {
+    return this.http.post(`api/build?buildNo=${buildNo}`, {
+      'buildName': buildName
+    });
+  }
+
+  deletePart(buildNo: Number, partNo: Number) {
+    return this.http.delete(`api/remove-part/${buildNo}?partNo=${partNo}`);
   }
 
 }

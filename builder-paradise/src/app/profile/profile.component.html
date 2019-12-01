@@ -29,6 +29,18 @@
                 <mat-panel-title> {{ build.buildName }} </mat-panel-title>
             </mat-expansion-panel-header>
 
+            <div>
+                <form [formGroup]='updateName'>
+                    <mat-form-field>
+                        <mat-label>New Name</mat-label>
+                        <input matInput formControlName='newName'>
+                    </mat-form-field>
+                    <button mat-flat-button (click)='updateBuildName(build.buildNo)'>Update Build Name</button>
+                </form>
+            </div>
+
+
+
             <mat-grid-list cols="2">
                 <mat-grid-tile>
                     <mat-grid-tile-header>Parts</mat-grid-tile-header>
@@ -36,7 +48,7 @@
                         <mat-divider></mat-divider>
                         <div *ngFor='let part of buildparts'>
                             <mat-list-item> {{ typeDict[part.partType] }} : <a routerLink="../part/{{ part.partNo }}">
-                                    {{ part.partName }} </a></mat-list-item>
+                                    {{ part.partName }} </a><span class="right"><button class="delete" mat-flat-button (click)='deletePart(build.buildNo, part.partNo)'>Delete</button></span></mat-list-item>
                             <mat-divider></mat-divider>
                         </div>
 
@@ -49,7 +61,8 @@
                         <mat-divider></mat-divider>
                         <div *ngFor='let price of priceList'>
                             <mat-list-item>
-                                <span class="left"> {{price.storeName}} </span><span class="right"> ${{price.total}} </span>
+                                <span class="left"> {{price.storeName}} </span><span class="right"> ${{price.total}}
+                                </span>
                             </mat-list-item>
                             <mat-divider></mat-divider>
                         </div>
@@ -68,7 +81,8 @@
         <mat-divider></mat-divider>
         <div *ngFor='let fav of favparts'>
             <mat-list-item>
-                <span class="left"><a routerLink="../part/{{ fav.partNo }}"> {{ fav.partName }} </a></span><span class="right"> Starting At: $
+                <span class="left"><a routerLink="../part/{{ fav.partNo }}"> {{ fav.partName }} </a></span><span
+                    class="right"> Starting At: $
                     {{fav.low}} </span>
             </mat-list-item>
             <mat-divider></mat-divider>

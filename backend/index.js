@@ -318,7 +318,15 @@ router.route('/build')
             });
         }
 
+    })
 
+    .post((req, res) => {
+        let buildNo = req.query.buildNo;
+        let buildName = req.body.buildName;
+        db.query(`update build set buildName = '${buildName}' where buildNo = ${buildNo}`, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            res.json('Build Name Updated.');
+        })
     })
 
     .put((req, res) => { //insert a build into db
@@ -350,6 +358,16 @@ router.route('/build/:user_id')
             res.send(result);
         })
     });
+
+router.route('/remove-part/:buildNo')
+    .delete((req, res) => {
+        let buildNo = req.params.buildNo;
+        let partNo = req.query.partNo;
+        db.query(`delete from buildpart where buildNo = ${buildNo} and partNo = ${partNo}`, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            res.json('Part Deleted From Build.');
+        })
+    })
 
 
 router.route('/build/price-list/:buildNo') //fetch price from each store in ascending order

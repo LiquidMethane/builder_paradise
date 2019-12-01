@@ -18,9 +18,10 @@ export class ProfileComponent implements OnInit {
   priceList: Object = null;
   priceListLoaded: boolean = false;
   favparts: Object = null;
-  typeDict: {[id: string]: string} = {};
+  typeDict: { [id: string]: string } = {};
 
   form: FormGroup;
+  updateName: FormGroup;
 
   constructor(private _http: HttpService, private _router: Router, private fb: FormBuilder) {
     this.typeDict['pccpu'] = 'CPU';
@@ -35,7 +36,11 @@ export class ProfileComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required]
     });
-   }
+
+    this.updateName = this.fb.group({
+      newName: ['', Validators.required]
+    });
+  }
 
   ngOnInit() {
     if (!sessionStorage.getItem('user_id'))
@@ -89,13 +94,37 @@ export class ProfileComponent implements OnInit {
     if (val.name) {
       this._http.createBuild(val.name, Number(sessionStorage.getItem('user_id'))).subscribe(result => {
         alert(JSON.stringify(result));
-        
+
       },
+        err => {
+          alert(err.error);
+        }
+      )
+    }
+  }
+
+  updateBuildName(buildNo: Number) {
+    const val = this.updateName.value;
+
+    if (val.newName) {
+      this._http.updateBuildName(buildNo, val.newName).subscribe(result => {
+        alert(JSON.stringify(result));
+      },
+        err => {
+          alert(err.error);
+        }
+      )
+    }
+  }
+
+  deletePart(buildNo: Number, partNo: Number) {
+    this._http.deletePart(buildNo, partNo).subscribe(result => {
+      alert(JSON.stringify(result));
+    },
       err => {
         alert(err.error);
       }
-      )
-    }
+    )
   }
 
 }
