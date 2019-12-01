@@ -15,11 +15,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { HomeComponent } from './home/home.component';
 import { PartComponent } from './part/part.component';
 import { LoginComponent } from './login/login.component';
+import { SearchComponent } from './search/search.component';
 
 
 
@@ -28,7 +30,8 @@ import { LoginComponent } from './login/login.component';
     AppComponent,
     HomeComponent,
     PartComponent,
-    LoginComponent
+    LoginComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { LoginComponent } from './login/login.component';
     MatButtonModule,
     MatListModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

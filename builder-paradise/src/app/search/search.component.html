@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="searchbar">
+        <mat-form-field>
+            <mat-label>Search</mat-label>
+            <input matInput placeholder="Keyword" (keyup)="searchParts($event.target.value)">
+        </mat-form-field>
+    </div>
+
+    <mat-list *ngIf='keyword=="" else elseBlock'>
+        <mat-list-item><span class="label">Name</span><span class="label">Occurance In Builds</span><span class="label"> </span></mat-list-item>
+        <mat-divider></mat-divider>
+        <div *ngFor='let part of parts'>
+            <mat-list-item><span><a routerLink="../part/{{ part.partNo }}"> {{ part.partName }} </a></span><span class="occurance">
+                    {{ part.occurance }} </span><button mat-button (click)='addToFav(part.partNo)'>Add</button></mat-list-item>
+            <mat-divider></mat-divider>
+        </div>
+
+    </mat-list>
+
+    <ng-template #elseBlock>
+        <mat-list>
+            <mat-list-item><span class="label">Name</span><span class="label">Specs</span><span class="label"> </span></mat-list-item>
+            <mat-divider></mat-divider>
+            <div *ngFor='let part of parts'>
+                <mat-list-item><span><a routerLink="../part/{{ part.partNo }}"> {{ part.partName }} </a></span><span>
+                        {{ part.specs }} </span><button mat-button (click)='addToFav(part.partNo)'>Add</button></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-divider></mat-divider>
+            </div>
+        </mat-list>
+    </ng-template>
+
+
+
+</div>

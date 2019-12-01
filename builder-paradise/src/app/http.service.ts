@@ -15,7 +15,7 @@ export class HttpService {
   }
 
   fetchPart(partNo: number) {
-    return this.http.get(`api/product/${partNo}`);
+    return this.http.get(`api/product/part/${partNo}`);
   }
 
   fetchPrices(partNo: number) {
@@ -30,6 +30,19 @@ export class HttpService {
     return this.http.post('api/user/validate', {
       'email': username,
       'pass': password
+    });
+  }
+
+  searchParts(keyword: string) {
+    if (keyword == '') {
+      return this.http.get(`api/popular-part`);
+    }
+    return this.http.get(`api/product/search?keyword=${keyword}`);
+  }
+
+  addToFav(partNo: Number) {
+    return this.http.put(`api/fav-part/${Number(sessionStorage.getItem('user_id'))}`, {
+      'partNo': partNo
     });
   }
 

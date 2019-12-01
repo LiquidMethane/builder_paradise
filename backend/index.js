@@ -29,7 +29,7 @@ router.use('/', (req, res, next) => {
     next();
 });
 
-router.route('/product/:partNo')
+router.route('/product/part/:partNo')
     .get((req, res) => {
         let partNo = req.params.partNo;
         let type = null;
@@ -224,7 +224,7 @@ router.route('/user/validate') //validate user
             if (result.length == 0)
                 return res.status(400).send('Validation Failed.');
             else if (pass == result[0].userPass) {
-                res.json({ user_id: result[0].userId });
+                res.json({ user_id: result[0].userId, user_nickname: result[0].userNickname });
             } else {
                 res.status(400).send('Validation Failed.');
             }
@@ -235,25 +235,25 @@ router.route('/user/validate') //validate user
 router.route('/product/search')
     .get((req, res) => {
         let keyword = req.query.keyword;
-        db.query(`select partNo, partName
+        db.query(`select partNo, partName, specs
         from part inner join 
-        (select partNo, caseType as searchable from pccase
+        (select partNo, caseType as searchable, concat('type: ', caseType) as specs from pccase
         union
-        select partNo, coolerType as searchable from pccooler
+        select partNo, coolerType as searchable, concat('type: ', coolerType) as specs from pccooler
         union
-        select partNo, concat(coreCount, ' ', coreClock, ' ', tdp) as searchable from pccpu
+        select partNo, concat(coreCount, ' ', coreClock, ' ', tdp) as searchable, concat('Core Count: ', coreCount, ' Core Clock: ', coreClock, ' GHz TDP: ', tdp, ' watts') as specs from pccpu
         union
-        select partNo, concat(chipset, ' ', memoryCapacity, ' ', coreClock) as searchable from pcgraphicscard
+        select partNo, concat(chipset, ' ', memoryCapacity, ' ', coreClock) as searchable, concat('Chipset: ', chipset, ' Memory Capacity: ', memoryCapacity, ' GB Core Clock: ', coreClock, ' MHz') as specs from pcgraphicscard
         union
-        select partNo, concat(capacity, ' ', speed, ' ', sticks) as searchable from pcmemory
+        select partNo, concat(capacity, ' ', speed, ' ', sticks) as searchable, concat('Capacity: ', capacity, ' GB Speed: ', speed, ' MHz Sticks: ', sticks) as specs from pcmemory
         union
-        select partNo, concat(mSocket, ' ', formFactor, ' ', ramSlot, ' ', maxRam) from pcmotherboard
+        select partNo, concat(mSocket, ' ', formFactor, ' ', ramSlot, ' ', maxRam) as searchable, concat('Socket: ', mSocket, ' Form Factor: ', formFactor, ' RamSlots: ', ramSlot, ' Max Ram: ', maxRam) as specs from pcmotherboard
         union
-        select partNo, wattage as searchable from pcpowersupply
+        select partNo, wattage as searchable, concat('Wattage: ', wattage, ' watts ') as specs from pcpowersupply
         union
-        select partNo, concat(sType, ' ', capacity) as searchable from pcstorage) as searchables using (partNo)
+        select partNo, concat(sType, ' ', capacity) as searchable, concat('Type: ', sType, ' Capacity: ', capacity, ' GB') as specs from pcstorage) as searchables using (partNo)
         where searchable like '%${keyword}%' or partName like '%${keyword}%';`, (err, result) => {
-            if (err) return res.status(400).send(err.message);
+            if (err) return res.status(400).send(err);
             res.send(result);
         });
     });
@@ -262,7 +262,7 @@ router.route('/product/price/:partNo')
     .get((req, res) => {
         let partNo = req.params.partNo;
 
-        db.query( `select * from inventory where partNo = ${partNo} order by storeNo, inventoryDate;`, (err, result) => {
+        db.query(`select * from inventory where partNo = ${partNo} order by storeNo, inventoryDate;`, (err, result) => {
             if (err) return res.status(500).send(err.message);
             return res.send(result);
         })
@@ -356,7 +356,31 @@ router.route('/fav-part/:user_id') //fetch all fav parts for a user with the low
             if (err) return res.status(400).send(err.message);
             res.send(result);
         });
-    });
+    })
+
+    .put((req, res) => {
+        let user_id = req.params.user_id;
+        let partNo = req.body.partNo;
+        db.query(`insert into userfavouritepart values ( ${user_id}, ${partNo})`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            console.log(result);
+            res.send(result);
+        })
+    })
+
+
+router.route('/popular-part')
+    .get((req, res) => {
+        db.query(`select partNo, partName, count(partNo) as occurance
+        from buildpart inner join part using (partNo)
+        group by partNo
+        order by occurance desc
+        limit 50;`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            res.send(result);
+        });
+    })
+
 
 app.use('/', express.static('static'));
 app.use('/api', router);

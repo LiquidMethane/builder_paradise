@@ -1,0 +1,42 @@
+span {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+span.occurance {
+  left: 50%;
+  right: 50%;
+
+}
+
+span.label {
+  margin: auto;
+}
+
+.searchbar {
+  margin-top: 3em;
+}
+
+mat-list-item {
+  a {
+    padding-left: 1em;
+
+    &:link {
+      text-decoration: none;
+      color: black;
+    }
+
+    &:hover {
+      background: lightgray;
+    }
+
+
+  }
+
+  button {
+    float: right;
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+}
