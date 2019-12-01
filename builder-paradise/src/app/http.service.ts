@@ -43,4 +43,8 @@ export class HttpService {
   createAccount(username, email, password){
     return this.http.put(this.relUrl + '/api/create-account', {username, email, password}); 
   }
+
+  getPopularParts(){
+    return this.http.get(this.relUrl + '/api/popular-parts'); 
+  }
 }

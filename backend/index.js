@@ -285,14 +285,6 @@ router.route('/build/add-part/:buildNo') //insert a part into a build
         });
     });
 
-// router.route('/build/:user_id')
-//     .get((req, res) => { //fetch all builds for a user_id
-//         db.query('select buildNo, buildName, partNo, partName from builder_paradise.build inner join builder_paradise.buildpart using (buildNo) inner join builder_paradise.part using (partNo) where userId = ' + req.params.user_id + ';', (err, result) => {
-//             if (err) return res.status(500).send(err.message);
-//             res.send(result);
-//         })
-//     });
-
 router.route('/build/:user_id')
     .get((req, res) => { //fetch all builds for a user_id
         db.query('select buildNo, buildName from builder_paradise.build where userId = ' + req.params.user_id + ';', (err, result) => {
@@ -358,6 +350,19 @@ router.route('/add-fav-from-builds/:user_id') // Add any parts that have been us
             res.send('Parts added to Favourites');
             })
     })
+
+router.route('/popular-parts')
+    .get((req, res) => {
+        db.query(`select partNo, partName, count(partNo) as occurance
+        from buildpart inner join part using (partNo)
+        group by partNo
+        order by occurance desc
+        limit 10;`, (err, result) => {
+            if (err) return res.status(400).send(err.message);
+            console.log(result); 
+            res.send(result);
+        })
+    });
 
 app.use('/', express.static('static'));
 app.use('/api', router);

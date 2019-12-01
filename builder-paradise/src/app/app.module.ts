@@ -12,6 +12,7 @@ import { BuildComponent } from './build/build.component';
 import { UserBuildsComponent } from './user-builds/user-builds.component';
 import { FavouritesComponent } from './favourites/favourites.component';
 import { NewAccountComponent } from './new-account/new-account.component';
+import { PopularPartsComponent } from './popular-parts/popular-parts.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { NewAccountComponent } from './new-account/new-account.component';
     BuildComponent,
     UserBuildsComponent,
     FavouritesComponent,
-    NewAccountComponent
+    NewAccountComponent,
+    PopularPartsComponent
   ],
   imports: [
     BrowserModule,

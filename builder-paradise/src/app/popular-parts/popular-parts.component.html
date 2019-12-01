@@ -1,0 +1,7 @@
+<h1>Popular Parts</h1>
+<p>Parts used in many builds:</p>
+<ul *ngIf="parts">
+    <li *ngFor="let part of parts" id="{{part.partNo}}">
+        <h3 class="partName">{{ part.partName }}</h3>
+    </li>
+</ul>

@@ -1,0 +1,23 @@
+h1 {
+    font-family: sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+ul li {
+    background: lightgray;
+    padding: 1em;
+    margin-right: 10px;
+    width: 20%;
+    height: 150px;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+}
