@@ -16,12 +16,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
 
 import { HomeComponent } from './home/home.component';
 import { PartComponent } from './part/part.component';
 import { LoginComponent } from './login/login.component';
 import { SearchComponent } from './search/search.component';
+import { DealComponent } from './deal/deal.component';
 
 
 
@@ -31,13 +33,14 @@ import { SearchComponent } from './search/search.component';
     HomeComponent,
     PartComponent,
     LoginComponent,
-    SearchComponent
+    SearchComponent,
+    DealComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSidenavModule,
@@ -49,6 +52,7 @@ import { SearchComponent } from './search/search.component';
     MatCardModule,
     MatIconModule,
     MatDividerModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

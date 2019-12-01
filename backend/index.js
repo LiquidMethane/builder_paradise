@@ -212,7 +212,7 @@ router.route('/product/psu')
         }
     })
 
-router.route('/user/validate') //validate user 
+router.route('/user') //validate user 
     .post((req, res) => {
         let email = req.body.email;
         let pass = req.body.pass;
@@ -230,6 +230,17 @@ router.route('/user/validate') //validate user
             }
         });
     });
+
+router.route('/user')
+    .put((req, res) => {
+        let email = req.body.email;
+        let pass = req.body.password;
+        let username = req.body.username;
+        db.query(`insert into user values (null, '${email}', '${username}', '${pass}')`, (err, result) => {
+            if (err) return res.status(500).send(err.message);
+            res.json('New Account Created.');
+        })
+    })
 
 
 router.route('/product/search')
@@ -266,6 +277,24 @@ router.route('/product/price/:partNo')
             if (err) return res.status(500).send(err.message);
             return res.send(result);
         })
+    })
+
+router.route('/product/deals')
+    .get((req, res) => {
+        db.query(`select p.partNo, p.partName, s.storeNo, s.storeName, price
+        from inventory as inv, store as s, part as p
+        where inventoryDate = '2019-12-01' 
+            and s.storeNo = inv.storeNo 
+            and p.partNo = inv.partNo 
+            and (inv.partNo, price) in 
+                (select partNo, min(price)
+                from inventory
+                where price > 0
+                group by partNo
+                order by partNo, price asc);`, (err, result) => {
+                    if (err) return res.status(400).send(err);
+                    res.send(result);
+                })
     })
 
 router.route('/store')

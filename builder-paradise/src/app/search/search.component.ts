@@ -12,6 +12,8 @@ export class SearchComponent implements OnInit {
   keyword: string = null;
   parts: Object = null;
   partsLoaded: boolean = false;
+  displayedColumns: string[] = ['name', 'occurance', 'button'];
+  displayedColumnsSearch: string[] = ['name', 'specs', 'button'];
 
   constructor(private _http: HttpService, private _router: Router) { }
 
@@ -38,7 +40,7 @@ export class SearchComponent implements OnInit {
     this.partsLoaded = false;
     this._http.searchParts(keyword).subscribe(parts => {
       this.parts = parts;
-      console.log(parts);
+      // console.log(parts);
       this.partsLoaded = true;
     })
   }

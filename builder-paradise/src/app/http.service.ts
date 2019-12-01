@@ -26,10 +26,18 @@ export class HttpService {
     return this.http.get(`api/store`);
   }
 
-  login(username: string, password: string) {
-    return this.http.post('api/user/validate', {
-      'email': username,
+  login(email: string, password: string) {
+    return this.http.post('api/user', {
+      'email': email,
       'pass': password
+    });
+  }
+
+  signup(username: string, email: string, password: string) {
+    return this.http.put('api/user', {
+      'username': username,
+      'email': email,
+      'password': password,
     });
   }
 
@@ -44,6 +52,10 @@ export class HttpService {
     return this.http.put(`api/fav-part/${Number(sessionStorage.getItem('user_id'))}`, {
       'partNo': partNo
     });
+  }
+
+  fetchDeals() {
+    return this.http.get('api/product/deals');
   }
 
 }

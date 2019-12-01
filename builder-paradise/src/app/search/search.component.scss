@@ -17,21 +17,24 @@ span.label {
   margin-top: 3em;
 }
 
-mat-list-item {
-  a {
-    padding-left: 1em;
 
-    &:link {
-      text-decoration: none;
-      color: black;
-    }
+a {
+  padding-left: 1em;
 
-    &:hover {
-      background: lightgray;
-    }
-
-
+  &:link {
+    text-decoration: none;
+    color: black;
   }
+
+  &:hover {
+    background: lightgray;
+  }
+
+
+}
+
+table {
+  width: 100%;
 
   button {
     float: right;

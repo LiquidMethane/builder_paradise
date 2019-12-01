@@ -1,11 +1,15 @@
-<form [formGroup]="form">
-    <mat-card class='container'>
+<form [formGroup]='signupForm' *ngIf='!signup; else elseBlock'>
 
-        <mat-card-title>Log In</mat-card-title>
+    <mat-card class='container'>
+        <mat-card-title>Sign Up</mat-card-title>
+        <mat-form-field appearance='outline'>
+            <mat-label>Username</mat-label>
+            <input matInput placeholder='HappyPig' formControlName="username">
+        </mat-form-field>
 
         <mat-form-field appearance='outline'>
             <mat-label>Email</mat-label>
-            <input matInput placeholder='Example@example.com' formControlName="username">
+            <input matInput placeholder='happypig@happy.pig' formControlName="email">
         </mat-form-field>
 
         <mat-form-field appearance='outline'>
@@ -13,10 +17,40 @@
             <input matInput placeholder='HappyPig203@%' formControlName="password" type="password">
         </mat-form-field>
 
-
+        <span>or <span class="clickable" (click)='signup=!signup'> Log In</span></span> 
         <mat-card-actions>
-            <button mat-flat-button (click)='login()'>Login</button>
+            <button mat-flat-button (click)='signup()'>SIGN UP</button>
+            
+
         </mat-card-actions>
+        
 
     </mat-card>
+
 </form>
+
+<ng-template #elseBlock>
+    <form [formGroup]="form">
+        <mat-card class='container'>
+
+            <mat-card-title>Log In</mat-card-title>
+            <mat-form-field appearance='outline'>
+                <mat-label>Email</mat-label>
+                <input matInput placeholder='happypig@happy.pig' formControlName="username">
+            </mat-form-field>
+
+            <mat-form-field appearance='outline'>
+                <mat-label>Password</mat-label>
+                <input matInput placeholder='HappyPig203@%' formControlName="password" type="password">
+            </mat-form-field>
+
+            <span>or <span class="clickable" (click)='signup=!signup'> Sign Up</span></span> 
+            <mat-card-actions>
+                <button mat-flat-button (click)='login()'>LOG IN</button>
+                
+            </mat-card-actions>
+           
+
+        </mat-card>
+    </form>
+</ng-template>

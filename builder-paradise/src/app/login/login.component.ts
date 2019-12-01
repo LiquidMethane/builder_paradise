@@ -12,11 +12,29 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
 
+  singup: boolean = false;
+  signupForm: FormGroup;
+
   constructor(private fb: FormBuilder, private _http: HttpService, private router: Router) {
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
+    this.signupForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+    })
+  }
+
+  signup() {
+    const val = this.signupForm.value;
+
+    if (val.username && val.password && val.email) {
+      this._http.signup(val.username, val.email, val.password).subscribe(result => {
+        this.router.navigateByUrl('/login');
+      })
+    }
   }
 
   login() {
@@ -36,7 +54,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
 }

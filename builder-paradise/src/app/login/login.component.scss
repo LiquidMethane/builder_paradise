@@ -7,7 +7,7 @@
     flex-direction: column;
 
     mat-form-field {
-        width: 50%
+        width: 75%
     }
 
     mat-card-actions {
@@ -20,6 +20,12 @@
                 background-color: green;
                 color: white;
             }
+        }
+    }
+    
+    span.clickable {
+        &:hover {
+            background-color: lightgray;
         }
     }
 }

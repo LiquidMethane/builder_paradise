@@ -1,0 +1,24 @@
+<h1>Burning Deals</h1>
+
+<div class="container" *ngIf='dealsLoaded'>
+    <table mat-table [dataSource]="deals" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let deal"><a routerLink="../part/{{ deal.partNo }}"> {{ deal.partName }} </a></td>
+        </ng-container>
+
+        <ng-container matColumnDef="store">
+            <th mat-header-cell *matHeaderCellDef> Store </th>
+            <td mat-cell *matCellDef="let deal"> {{deal.storeName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>price</th>
+            <td mat-cell *matCellDef="let deal"> {{deal.price}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
