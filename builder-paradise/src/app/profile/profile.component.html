@@ -49,7 +49,7 @@
                         <mat-divider></mat-divider>
                         <div *ngFor='let price of priceList'>
                             <mat-list-item>
-                                <span> {{price.storeName}} </span><span> {{price.total}} </span>
+                                <span class="left"> {{price.storeName}} </span><span class="right"> ${{price.total}} </span>
                             </mat-list-item>
                             <mat-divider></mat-divider>
                         </div>
@@ -68,7 +68,7 @@
         <mat-divider></mat-divider>
         <div *ngFor='let fav of favparts'>
             <mat-list-item>
-                <span><a routerLink="../part/{{ fav.partNo }}"> {{ fav.partName }} </a></span><span> Starting At: $
+                <span class="left"><a routerLink="../part/{{ fav.partNo }}"> {{ fav.partName }} </a></span><span class="right"> Starting At: $
                     {{fav.low}} </span>
             </mat-list-item>
             <mat-divider></mat-divider>
